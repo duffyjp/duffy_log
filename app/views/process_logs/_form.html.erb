@@ -1,0 +1,57 @@
+<%= form_with(model: process_log, local: true) do |form| %>
+  <% if process_log.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(process_log.errors.count, "error") %> prohibited this process_log from being saved:</h2>
+
+      <ul>
+        <% process_log.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :key %>
+    <%= form.text_field :key %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start_time %>
+    <%= form.datetime_select :start_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :end_time %>
+    <%= form.datetime_select :end_time %>
+  </div>
+
+  <div class="field">
+    <%= form.label :elapsed %>
+    <%= form.number_field :elapsed %>
+  </div>
+
+  <div class="field">
+    <%= form.label :average_elapsed %>
+    <%= form.number_field :average_elapsed %>
+  </div>
+
+  <div class="field">
+    <%= form.label :comment %>
+    <%= form.text_area :comment %>
+  </div>
+
+  <div class="field">
+    <%= form.label :backtrace %>
+    <%= form.text_area :backtrace %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

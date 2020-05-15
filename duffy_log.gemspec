@@ -9,9 +9,8 @@ Gem::Specification.new do |spec|
   spec.version     = DuffyLog::VERSION
   spec.authors     = ["Jacob Duffy"]
   spec.email       = ["duffy.jp@gmail.com"]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of DuffyLog."
-  spec.description = "TODO: Description of DuffyLog."
+#  spec.homepage    = "TODO"
+  spec.summary     = "ProcessLog MVC"
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

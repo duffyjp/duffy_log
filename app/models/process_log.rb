@@ -1,0 +1,2 @@
+class ProcessLog < ApplicationRecord
+end

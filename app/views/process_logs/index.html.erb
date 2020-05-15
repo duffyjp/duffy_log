@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Process Logs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Status</th>
+      <th>Start time</th>
+      <th>End time</th>
+      <th>Elapsed</th>
+      <th>Average elapsed</th>
+      <th>Comment</th>
+      <th>Backtrace</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @process_logs.each do |process_log| %>
+      <tr>
+        <td><%= process_log.key %></td>
+        <td><%= process_log.status %></td>
+        <td><%= process_log.start_time %></td>
+        <td><%= process_log.end_time %></td>
+        <td><%= process_log.elapsed %></td>
+        <td><%= process_log.average_elapsed %></td>
+        <td><%= process_log.comment %></td>
+        <td><%= process_log.backtrace %></td>
+        <td><%= link_to 'Show', process_log %></td>
+        <td><%= link_to 'Edit', edit_process_log_path(process_log) %></td>
+        <td><%= link_to 'Destroy', process_log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Process Log', new_process_log_path %>

@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  key: MyString
+  status: MyString
+  start_time: 2020-05-15 14:18:40
+  end_time: 2020-05-15 14:18:40
+  elapsed: 1
+  average_elapsed: 1
+  comment: MyText
+  backtrace: MyText
+
+two:
+  key: MyString
+  status: MyString
+  start_time: 2020-05-15 14:18:40
+  end_time: 2020-05-15 14:18:40
+  elapsed: 1
+  average_elapsed: 1
+  comment: MyText
+  backtrace: MyText

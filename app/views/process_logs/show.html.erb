@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Key:</strong>
+  <%= @process_log.key %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @process_log.status %>
+</p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @process_log.start_time %>
+</p>
+
+<p>
+  <strong>End time:</strong>
+  <%= @process_log.end_time %>
+</p>
+
+<p>
+  <strong>Elapsed:</strong>
+  <%= @process_log.elapsed %>
+</p>
+
+<p>
+  <strong>Average elapsed:</strong>
+  <%= @process_log.average_elapsed %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @process_log.comment %>
+</p>
+
+<p>
+  <strong>Backtrace:</strong>
+  <%= @process_log.backtrace %>
+</p>
+
+<%= link_to 'Edit', edit_process_log_path(@process_log) %> |
+<%= link_to 'Back', process_logs_path %>
