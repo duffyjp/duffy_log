@@ -1,8 +1,11 @@
 # DuffyLog
-Short description and motivation.
+Module to log rake tasks, expensive ETL steps etc.  
+Able to capture and report errors.
 
 ## Usage
-How to use my plugin.
+Adds a single model `ProcessLog` which has to be used around the code you want to track.
+
+TODO: ADD EXAMPLES
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -15,14 +18,6 @@ And then execute:
 ```bash
 $ bundle
 ```
-
-Or install it yourself as:
-```bash
-$ gem install duffy_log
-```
-
-## Contributing
-Contribution directions go here.
 
 ## License
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
