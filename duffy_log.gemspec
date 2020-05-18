@@ -26,7 +26,9 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "rails", "~> 6.0.2", ">= 6.0.2.2"
 
-  spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency "amazing_print"
+  spec.add_development_dependency "factory_bot_rails"
   spec.add_development_dependency "rspec-rails"
+  spec.add_development_dependency "sqlite3"
 
 end

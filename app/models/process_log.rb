@@ -7,7 +7,7 @@ class ProcessLog < ApplicationRecord
   before_validation { self.start_time ||= Time.now }
   before_validation { self.status     ||= "Started" }
   before_save       { self.elapsed      = end_time - start_time rescue nil }
-  before_save       { self.average_elapsed = ProcessLog.where(id: ProcessLog.where(key: key).where.not(elapsed: nil, status: "Fail").limit(10).ids).average(:elapsed)}
+  before_save       { self.average_elapsed = ProcessLog.where(id: ProcessLog.where(key: key).where.not(elapsed: nil).where.not(status: "Fail").limit(10).ids).average(:elapsed)}
   after_save        { puts result if $stdout.isatty && completed? && !Rails.env.test? }
 
 

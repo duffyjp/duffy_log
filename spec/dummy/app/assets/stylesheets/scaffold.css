@@ -29,12 +29,22 @@ a:hover {
   background-color: #000;
 }
 
+table {
+  border-spacing: 0;
+}
+
+
 th {
   padding-bottom: 5px;
 }
 
 td {
   padding: 0 5px 7px;
+
+}
+
+tr:nth-child(even) {
+  background-color: rgba(0,0,0,.07);
 }
 
 div.field,
