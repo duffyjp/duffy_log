@@ -4,6 +4,10 @@ class ProcessLogsController < ApplicationController
   # GET /process_logs
   def index
     @process_logs = ProcessLog.all
+
+    @process_logs = @process_logs.where(key: params[:key]) if ProcessLog.pluck(:key).uniq.include?(params[:key])
+    @process_logs = @process_logs.where(status: params[:status]) if ProcessLog.pluck(:status).uniq.include?(params[:status])
+
   end
 
   # GET /process_logs/1
