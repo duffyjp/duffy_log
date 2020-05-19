@@ -49,6 +49,13 @@ class ProcessLog < ApplicationRecord
     status == "Fail"
   end
 
+  def local_end
+    end_time&.localtime&.strftime("%F %l:%M%P")
+  end
+
+  def local_start
+    start_time&.localtime&.strftime("%F %l:%M%P")
+  end
 
   def progress
     success? ? 100 : [99, (100 * elapsed / average_elapsed).to_i].min rescue "?"

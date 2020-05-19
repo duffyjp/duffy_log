@@ -1,44 +1,42 @@
-<p id="notice"><%= notice %></p>
+<h1><%= @process_log %> - <%= @process_log.local_start %></h1>
 
-<p>
-  <strong>Key:</strong>
-  <%= @process_log.key %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @process_log.status %>
-</p>
-
-<p>
-  <strong>Start time:</strong>
-  <%= @process_log.start_time %>
-</p>
-
-<p>
-  <strong>End time:</strong>
-  <%= @process_log.end_time %>
-</p>
-
-<p>
-  <strong>Elapsed:</strong>
-  <%= @process_log.elapsed %>
-</p>
-
-<p>
-  <strong>Average elapsed:</strong>
-  <%= @process_log.average_elapsed %>
-</p>
-
-<p>
-  <strong>Comment:</strong>
-  <%= @process_log.comment %>
-</p>
-
-<p>
-  <strong>Backtrace:</strong>
-  <%= @process_log.backtrace %>
-</p>
-
-<%= link_to 'Edit', edit_process_log_path(@process_log) %> |
-<%= link_to 'Back', process_logs_path %>
+<table>
+  <tbody>
+  <tr>
+    <th style="width:160px;">status</th>
+    <td class="<%= 'alert' if @process_log.fail? %>"><%= @process_log.status %></td>
+  </tr>
+  <tr>
+    <th>start time</th>
+    <td><%= @process_log.local_start %></td>
+  </tr>
+  <tr>
+    <th>end time</th>
+    <td><%= @process_log.local_end %></td>
+  </tr>
+  <tr>
+    <th>elapsed</th>
+    <td><%= distance_of_time_in_words(@process_log.elapsed) rescue nil %></td>
+  </tr>
+  <tr>
+    <th nowrap>average elapsed</th>
+    <td><%= distance_of_time_in_words(@process_log.average_elapsed) rescue nil %></td>
+  </tr>
+  <tr>
+    <th>key</th>
+    <td><%= @process_log.key %></td>
+  </tr>
+  <tr>
+    <th style="vertical-align: top;">comment</th>
+    <td style="font-size: 0.9em;"><pre style='margin: 0;'><%= sanitize h(@process_log.comment) %></pre></td>
+  </tr>
+  <tr>
+    <th style="vertical-align: top;">backtrace</th>
+    <td style="max-width: 0; overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.9em;
+    "><pre style='margin: 0;'><%= sanitize h(@process_log.backtrace.to_s.gsub("`", "'")).nl2br %></pre></td>
+  </tr>
+  </tbody>
+</table>
