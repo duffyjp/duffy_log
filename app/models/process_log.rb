@@ -4,21 +4,25 @@ class ProcessLog < ApplicationRecord
   validates :start_time,  presence: true
   validates :status,      presence: true
 
-  before_validation { self.start_time ||= Time.now }
-  before_validation { self.status     ||= "Started" }
-  before_save       { self.elapsed      = end_time - start_time rescue nil }
-  before_save       { self.average_elapsed = ProcessLog.where(id: ProcessLog.where(key: key).where.not(elapsed: nil).where.not(status: "Fail").limit(10).ids).average(:elapsed)}
-  after_save        { puts result if $stdout.isatty && completed? && !Rails.env.test? }
+  before_validation { self.start_time     ||= Time.now }
+  before_validation { self.status         ||= "Started" }
+  before_save       { self.elapsed          = end_time && end_time - start_time }
+  before_save       { self.average_elapsed  = siblings.completed.sorted.limit(10).average(:elapsed) }
+
+
+  # Scopes
+  scope :completed, -> { where.not(elapsed: nil) }
+  scope :sorted,    -> { order(start_time: :desc) }  # Newest first
 
 
   # Methods
 
   def completed?
-    !started?
+    !!elapsed
   end
 
   def elapsed
-    read_attribute(:elapsed) or [(Time.now - start_time).to_i, 86400].min
+    super || [(Time.now - start_time).to_i, 86400].min
   end
 
   # Fail the Process Log.
@@ -35,14 +39,11 @@ class ProcessLog < ApplicationRecord
     end
 
     # Manually passed named arguments overwrite exception if that was also provided.
-    self.comment = comment unless comment.blank?
-    self.backtrace = Array(backtrace).join("\n") unless backtrace.blank?
+    self.comment    = comment unless comment.blank?
+    self.comment  ||= 'Fail'
+    self.backtrace  = Array(backtrace).join("\n") unless backtrace.blank?
 
-    # Send out an Error Email.
-    # subject = "Process Failure: #{key} - #{end_time.pretty_local}"
-    # message = [subject, self.comment, self.backtrace.try(:nl2br)].compact.join("<hr>")
-    # Alert::Mailer.error(message: message, subject: subject).deliver_now
-    save!
+    save
   end
 
   def fail?
@@ -50,26 +51,19 @@ class ProcessLog < ApplicationRecord
   end
 
   def local_end
-    end_time&.localtime&.strftime("%F %l:%M%P")
+    end_time&.localtime&.strftime("%F %-l:%M%P")
   end
 
   def local_start
-    start_time&.localtime&.strftime("%F %l:%M%P")
+    start_time&.localtime&.strftime("%F %-l:%M%P")
   end
 
   def progress
     success? ? 100 : [99, (100 * elapsed / average_elapsed).to_i].min rescue "?"
   end
 
-  def self.progress_of(key)
-    return nil if where(key: key).blank?
-    log = where(key: key).reorder(id: :desc).first
-    [99, (100 * log.elapsed / log.average_elapsed).to_i].min rescue "?"
-  end
-
-
-  def result
-    "[#{status}] #{Time.at(elapsed).utc.strftime("%H:%M:%S")} #{self} #{comment.to_s.gsub("\n", '')}"
+  def siblings
+    ProcessLog.where(key: key)
   end
 
   def started?
@@ -77,12 +71,7 @@ class ProcessLog < ApplicationRecord
   end
 
   def status
-    elapsed >= 86400 ? "Fail" : read_attribute(:status)
-  end
-
-  def self.status_of(key)
-    return nil if where(key: key).blank?
-    where(key: key).reorder(id: :desc).first.try(:status)
+    elapsed >= 86400 ? "Fail" : super
   end
 
   def success!
@@ -96,7 +85,7 @@ class ProcessLog < ApplicationRecord
   end
 
   def to_s
-    key.to_s.smart_titlecase.gsub(":", ": ")
+    key
   end
 
 end
