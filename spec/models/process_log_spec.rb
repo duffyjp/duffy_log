@@ -13,12 +13,12 @@ RSpec.describe ProcessLog, type: :model do
 
     it "start_time can't be blank" do
       process_log.update(start_time: nil)
-      expect(process_log.start_time).to_not eq nil
+      expect{ process_log.save! }.to raise_error /Start time can't be blank/
     end
 
     it "status can't be blank" do
       process_log.update(status: nil)
-      expect(process_log.status).to_not eq nil
+      expect{ process_log.save! }.to raise_error /Status can't be blank/
     end
   end
 
@@ -26,11 +26,14 @@ RSpec.describe ProcessLog, type: :model do
 
     describe 'completed?' do
       it 'returns true if elapsed is set' do
+        process_log.success!
+        expect(process_log.read_attribute(:elapsed)).to_not eq nil
         expect(process_log.completed?).to eq true
       end
 
       it 'returns false if elapsed is unset' do
-        expect(process_log.completed?).to eq true
+        expect(process_log.read_attribute(:elapsed)).to eq nil
+        expect(process_log.completed?).to eq false
       end
     end
 
